@@ -4,9 +4,21 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
+import 'antd/dist/antd.css'
+import { mainRoutes } from './routes';
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <Switch>
+        <Route path="/dashboard" render={routeProps => <App {...routeProps} />} />
+        {mainRoutes.map(route => {
+          return <Route key={route.path} {...route} />;
+        })}
+        <Redirect to="/404" />
+      </Switch>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );

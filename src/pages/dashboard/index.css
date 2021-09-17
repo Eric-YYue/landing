@@ -1,0 +1,27 @@
+.container {
+    /* width: 50vw;
+    height: 40vh; */
+    background: url("https://i.stack.imgur.bbbbbbbbbbcom/DrmAg.jpg");
+    position: relative;
+    /* float:right */
+  }
+  
+  .container::before,
+  .container::after {
+    position: absolute;
+    content: "";
+    display: block;
+    width: 500px;
+    height: 100%;
+    top: 0;
+  }
+  
+  .container::before {
+    background: linear-gradient(to right, rgb(106, 106, 106), rgba(203, 130, 42, 0));
+    left: 0;
+  }
+  
+  /* .container::after {
+   background: linear-gradient(to left, rgba(203, 130, 43, 1), rgba(203, 130, 42, 0));
+    right: 0;
+  } */
