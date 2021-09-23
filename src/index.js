@@ -9,17 +9,15 @@ import 'antd/dist/antd.css'
 import { mainRoutes } from './routes';
 
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Router>
       <Switch>
         <Route path="/dashboard" render={routeProps => <App {...routeProps} />} />
-        {mainRoutes.map(route => {
-          return <Route key={route.path} {...route} />;
-        })}
-        <Redirect to="/404" />
+        <Route path="/admin" render={routeProps => <App {...routeProps} />} />
+        <Redirect to='/dashboard' from='/' />
       </Switch>
-    </Router>
-  </React.StrictMode>,
+    </Router>,
+  // </React.StrictMode>,
   document.getElementById('root')
 );
 

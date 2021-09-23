@@ -1,75 +1,236 @@
-import { Layout, Menu, Space, Divider, Typography, Avatar, Dropdown } from 'antd';
+import { Layout, Menu, Avatar, Space, Divider, Col, Row, Drawer, Form, Button, Input, Select, DatePicker } from 'antd';
 import React from 'react';
-import { DesktopOutlined, UserOutlined } from '@ant-design/icons';
+import { withRouter } from 'react-router-dom';
+import { UserOutlined } from '@ant-design/icons';
 import './index.css'
+import { mainRoutes, adminRoutes } from '../../routes';
+import MenuItem from 'antd/lib/menu/MenuItem';
 
-const { Header, Content, Sider } = Layout;
-const { SubMenu } = Menu;
-const { Title } = Typography;
 
-class SiderDemo extends React.Component {
-    state = {
-        collapsed: false,
-    };
+// import { Dimensions } from 'react-native';
 
-    onCollapse = collapsed => {
-        console.log(collapsed);
-        this.setState({ collapsed });
-    };
+// const [visible, setVisible] = useState(false);
+// const [showDrawer, setShowDrawer] = useState(true);
+// const [onClose, setOnClose] = useState(false);
 
-    render() {
-        const { collapsed } = this.state;
-        return (
-            <Layout style={{ minHeight: '100vh' }}>
-                <Header className="header" style={{ background: "white", paddingLeft: 20 }}>
-                    <div>
-                        <a href='/#/dashboard'>
-                            <Space split={<Divider type="vertical" />}>
-                                <img className={['centered']}
-                                    src={'../page_logo.jpg'}
-                                    width={document.body.clientWidth / 13}
-                                    align="start"
-                                />
-                                <Title level={2} ellipsis={true} > RoadMap </Title>
-                            </Space>
-                        </a>
-                    </div>
+const routesAdmin = adminRoutes.filter(routes => routes.isShow);
+const routesDashboard = mainRoutes.filter(routes => routes.isShow);
 
-                    <span className="avatar place">
-                        <Avatar size="large" icon={<UserOutlined />} />
+const { Header, Content } = Layout;
 
-                    </span>
-                </Header>
-                <Layout className="site-layout">
-                    <Sider
-                        collapsible
-                        collapsed={collapsed}
-                        onCollapse={this.onCollapse}
-                    >
-                        <div className="logo" />
-                        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-                            <Menu.Item key="1" icon={<DesktopOutlined />}>
-                                Landing Page
-                            </Menu.Item>
-                            <Menu.Item key="2" icon={<UserOutlined />}>
-                                Admin Edit
-                            </Menu.Item>
-                            {/* <SubMenu key="sub1" icon={<DesktopOutlined />} title="Landing Page">
-                                <Menu.Item key="1"> New Web </Menu.Item>
-                                <Menu.Item key="2"> Delete </Menu.Item>
-                            </SubMenu> */}
-                        </Menu>
-                    </Sider>
+// const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
-                    <Content style={{ margin: '0 16px' }}>
-                        <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-                            {this.props.children}
-                        </div>
-                    </Content>
-                </Layout>
-            </Layout >
-        );
-    }
+const width_win = document.body.clientWidth
+const height_win = document.body.clientHeight
+
+const { Option } = Select;
+
+const state = { visible: false };
+
+const avatarIcon = (username) => {
+  return username[0]
 }
 
-export default SiderDemo
+export function isLogined() {
+  if (localStorage.getItem("AUTHORIZATION")) {
+    return true;
+  }
+  return false;
+}
+
+function Frame(props) {
+  // render() {
+  return (
+    <Layout className="layout">
+      <Header style={{
+        background: "dark",
+        paddingLeft: 0,
+        paddingTop: 0,
+
+
+        width: '100%',
+        // position: 'fixed',
+        // top: 0,
+      }}>
+        <Row>
+          <Col flex={4}>
+            <img
+              src={'../page_logo.jpg'}
+              // height={height_win/15}
+              // width={document.body.clientWidth / 14}
+              align="start"
+            />
+
+          </Col>
+          <Col flex={50}>
+            <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']} style={{ padding: '0 50px' }}>
+              {/* {new Array(15).fill(null).map((_, index) => {
+              const key = index + 1;
+              return <Menu.Item key={key}>{`nav ${key}`}</Menu.Item>;
+            })} */}
+              {routesDashboard.map(routesDashboard => {
+                return (
+                  <MenuItem key={routesDashboard.path} onClick={p => props.history.push(p.key)}>
+                    {routesDashboard.title}
+                  </MenuItem>
+                )
+              })}
+
+              {routesAdmin.map(routesAdmin => {
+                return (
+                  <MenuItem key={routesAdmin.path} onClick={p => props.history.push(p.key)}>
+                    {routesAdmin.title}
+                  </MenuItem>
+                )
+              })}
+
+
+            </Menu>
+          </Col>
+
+          <Col flex={1}>
+            <span className="avatar place">
+              <Avatar
+                size='large'
+                onClick={e => e.preventDefault()}
+                style={{ color: '#00000F' }}>
+                {isLogined() ? (avatarIcon('Admin')) : 'Guest'}
+              </Avatar>
+
+
+
+
+
+
+
+
+
+
+              {/* 
+                <Drawer
+                  title="Create a new account"
+                  width={720}
+                  onClose={onClose}
+                  visible={state.visible}
+                  bodyStyle={{ paddingBottom: 80 }}
+                  extra={
+                    <Space>
+                      <Button onClick={onClose}>Cancel</Button>
+                      <Button onClick={onClose} type="primary">
+                        Submit
+                      </Button>
+                    </Space>
+                  }
+                >
+                  <Form layout="vertical" hideRequiredMark>
+                    <Row gutter={16}>
+                      <Col span={12}>
+                        <Form.Item
+                          name="name"
+                          label="Name"
+                          rules={[{ required: true, message: 'Please enter user name' }]}
+                        >
+                          <Input placeholder="Please enter user name" />
+                        </Form.Item>
+                      </Col>
+                      <Col span={12}>
+                        <Form.Item
+                          name="url"
+                          label="Url"
+                          rules={[{ required: true, message: 'Please enter url' }]}
+                        >
+                          <Input
+                            style={{ width: '100%' }}
+                            addonBefore="http://"
+                            addonAfter=".com"
+                            placeholder="Please enter url"
+                          />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Row gutter={16}>
+                      <Col span={12}>
+                        <Form.Item
+                          name="owner"
+                          label="Owner"
+                          rules={[{ required: true, message: 'Please select an owner' }]}
+                        >
+                          <Select placeholder="Please select an owner">
+                            <Option value="xiao">Xiaoxiao Fu</Option>
+                            <Option value="mao">Maomao Zhou</Option>
+                          </Select>
+                        </Form.Item>
+                      </Col>
+                      <Col span={12}>
+                        <Form.Item
+                          name="type"
+                          label="Type"
+                          rules={[{ required: true, message: 'Please choose the type' }]}
+                        >
+                          <Select placeholder="Please choose the type">
+                            <Option value="private">Private</Option>
+                            <Option value="public">Public</Option>
+                          </Select>
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Row gutter={16}>
+                      <Col span={12}>
+                        <Form.Item
+                          name="approver"
+                          label="Approver"
+                          rules={[{ required: true, message: 'Please choose the approver' }]}
+                        >
+                          <Select placeholder="Please choose the approver">
+                            <Option value="jack">Jack Ma</Option>
+                            <Option value="tom">Tom Liu</Option>
+                          </Select>
+                        </Form.Item>
+                      </Col>
+                      <Col span={12}>
+                        <Form.Item
+                          name="dateTime"
+                          label="DateTime"
+                          rules={[{ required: true, message: 'Please choose the dateTime' }]}
+                        >
+                          <DatePicker.RangePicker
+                            style={{ width: '100%' }}
+                            getPopupContainer={trigger => trigger.parentElement}
+                          />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Row gutter={16}>
+                      <Col span={24}>
+                        <Form.Item
+                          name="description"
+                          label="Description"
+                          rules={[
+                            {
+                              required: true,
+                              message: 'please enter url description',
+                            },
+                          ]}
+                        >
+                          <Input.TextArea rows={4} placeholder="please enter url description" />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                  </Form>
+                </Drawer> */}
+            </span>
+          </Col>
+        </Row>
+      </Header>
+
+      <Content style={{ padding: '0 50px' }}>
+        <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+          {props.children}
+        </div>
+      </Content>
+    </Layout>
+  )
+}
+// }
+
+export default withRouter(Frame)

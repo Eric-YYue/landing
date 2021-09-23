@@ -3,6 +3,8 @@
     height: 40vh; */
     background: url("https://i.stack.imgur.bbbbbbbbbbcom/DrmAg.jpg");
     position: relative;
+    width:"carousel_tmp_width";
+    height:"carousel_height";
     /* float:right */
   }
   
@@ -14,7 +16,7 @@
     width: 500px;
     height: 100%;
     top: 0;
-    
+
   }
   
   .container::before {

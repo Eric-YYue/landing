@@ -9,7 +9,7 @@ function CardTmp(props) {
     return (
         <a href="http://10.124.81.138:3000/index_main" target="_blank" rel="noopener noreferrer">
             <Card
-                style={{ width: (document.body.clientWidth / 5.5) - 20 }}
+                style={{ width: (document.body.clientWidth / 5) - 25 }}
                 cover={
                     <img
                         alt="example"
@@ -17,8 +17,7 @@ function CardTmp(props) {
                     />
                 }
             >
-                <Meta
-                    // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                <Meta align="start"
                     title="Card title"
                     description="Detailed Information"
                 />

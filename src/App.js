@@ -1,13 +1,13 @@
 import './App.css';
+import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom'
-import { mainRoutes, testRoutes } from "./routes"
+import { mainRoutes, adminRoutes } from "./routes"
 import Frame from './components/Frame/index'
-import Frame2 from './components/Frame/index2'
 
 
 function App() {
   return (
-    <Frame2>
+    <Frame>
       <Switch>
         {mainRoutes.map(route => {
           return (
@@ -20,9 +20,21 @@ function App() {
               }} />
           );
         })}
-        <Redirect to="/404" />
+        {adminRoutes.map(route => {
+          return (
+            <Route
+              key={route.path}
+              exact={route.exact}
+              path={route.path}
+              render={routeProps => {
+                return <route.component {...routeProps} />
+              }}
+            />
+          )
+        })}
+        <Redirect to="/dashboard" />
       </Switch>
-    </Frame2>
+    </Frame>
   );
 }
 

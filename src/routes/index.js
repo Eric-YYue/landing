@@ -1,14 +1,23 @@
 import Dashboard from "../pages/dashboard/index";
-import PageNotFound from "../pages/PageNotFound";
+import Admin from "../pages/admin/index";
+// import PageNotFound from "../pages/PageNotFound";
 
 export const mainRoutes = [
     {
-        paht: '/dashboard',
+        path: '/dashboard',
         isShow: true,
-        component: Dashboard
-    }, {
-        path: '/404',
+        component: Dashboard,
+        exact: true,
+        title: 'dashboard'
+    }
+]
+
+export const adminRoutes = [
+    {
+        path: '/admin',
         isShow: true,
-        component: PageNotFound
+        component: Admin,
+        exact: true,
+        title: 'admin'
     }
 ]

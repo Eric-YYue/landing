@@ -1,13 +1,30 @@
 import React from 'react'
 
-import { Card, Avatar, Col, Row, Space, Carousel, Divider } from 'antd';
+import { Card, Avatar, Col, Row, Carousel, Divider, Space } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined, LinkOutlined } from '@ant-design/icons';
 import './index.css'
 
 import CardTmp from '../../components/CardTmp'
 import SizeContext from 'antd/lib/config-provider/SizeContext';
+import { List } from 'rc-field-form';
 
 // const { Meta } = Card;
+
+// fetchSelData = () => {
+//     fetch('../data/selectData.json')
+//         .then((res) => {return res.json(); })
+//         .then((data) => {alert(JSON.stringify(data));this.setState({selV:data.obj});})
+//         .catch((e) => {console.log(e.message); });
+// }
+
+const mapper = (item) => {
+    return (
+        <Col span={4} style={{ paddingLeft: 20, padding: 20 }}>
+            <CardTmp />
+        </Col>
+    )
+}
+
 
 const contentStyle = {
     // height: '100%',
@@ -19,17 +36,26 @@ const contentStyle = {
     paddingTop: 20
 };
 
+const statusObj = {
+    developing: 'Developing',
+    implemented: 'Implemented',
+    auditClean: 'Audit Clean',
+    deprecation: 'Deprecated',
+    unknown: 'Unknown',
+}
+
+const style = { padding: '8px 0' };
 
 function index() {
     const carousel_height = document.body.clientHeight / 2.5;
-    const carousel_tmp_width =  2 * document.body.clientWidth / 3
+    const carousel_tmp_width = 2 * document.body.clientWidth / 3
     return (
         <div>
-            <Carousel dots="false" style={{ background: "#6A6A6A", height: carousel_height }}>
+            <Carousel autoplay dots="false" style={{ background: "#6A6A6A", height: carousel_height }}>
                 <div>
                     <Row>
-                        <Col flex="250px" style={{position:'relative'}}>
-                            <a style={{paddingTop:200}}>
+                        <Col flex="250px" style={{ position: 'relative' }}>
+                            <a style={{ paddingTop: 200 }}>
                                 <h1 style={contentStyle}> Welcome </h1>
                                 <br />
                                 <h3 style={contentStyle}> Detailed and ordered website asdfasdfasdfa sdfadsfsddsfsdfsdfdsfsdfsddsfagfsdfsdfasd fasdfsadsasdfas dfasdfsadfsadf sdafsdfasdf fdsafasdf advsda</h3>
@@ -40,19 +66,20 @@ function index() {
                             <div class="container" style={{
                                 // width: 50vw,
                                 height: carousel_height,
-                                width: carousel_tmp_width - 300,
+                                width: carousel_tmp_width,
                                 // display: 'block',
-                                // objectFit:'cover'
-                                float:'right'
+                                // objectFit:'cover',
+                                float: 'right'
                             }}>
                                 <img
                                     float='right'
-                                    src="https://pic2.zhimg.com/v2-f513c036d798cc94cb00dae1ac703205_r.jpg?source=1940ef5c"
+                                    src="https://ask.qcloudimg.com/http-save/yehe-7694870/psyadnsqc.png?imageView2/2/w/1620"
                                     // height={carousel_height}
                                     object-fit='cover'
-                                    width="carousel_tmp_width"
-                                    height="auto"
-
+                                // style={{
+                                //     width:"carousel_tmp_width",
+                                //     height:"carousel_height",
+                                // }}
                                 />
                             </div>
                         </Col>
@@ -82,25 +109,43 @@ function index() {
             <br />
             <Divider orientation="left">
                 {/* <p style={{ fontFamily:"Trebuchet MS"}}> */}
-                <h1 style={{ fontFamily: "Lucida Sans Unicode" }}>
-                    <b>
-                        Websites Below
-                    </b>
-                </h1>
+                <h1 style={{ fontFamily: "Lucida Sans Unicode" }} />
                 {/* </p> */}
             </Divider>
 
             <br />
 
-            {/* <Space size={[70, 20]} wrap> */}
             <Row justify="space-around">
-                {new Array(15).fill(null).map((_, index) => (
-                    <Col span={4} style={{ paddingLeft: 20, padding: 20 }}>
-                        <CardTmp />
-                    </Col>
-                ))}
+                {/* <script type="text/javascript">
+
+                    a =  $.ajax({
+                        url: "a123.json",//json文件位置，文件名
+                    type: "GET",//请求方式为get
+                    dataType: "json", //返回数据格式为json
+                    async: false,
+                    success: function(data) {//请求成功完成后要执行的方法 
+                    }
+                    });
+
+                </script> */}
+                <div>
+                    {/* {Object.keys(statusObj).map((obj, idx) => (
+                        <li key={idx} className={classes.li}>{obj} : {statusObj[obj]}</li>
+                    ))} */}
+
+                    <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+                        {new Array(15).fill(null).map((_, index) => (
+                            <Col className="gutter-row" span={6}>
+                                <div style={style} align="middle" >
+                                    <CardTmp />
+                                </div>
+                            </Col>
+                        ))}
+                    </Row>
+
+
+                </div>
             </Row>
-            {/* </Space> */}
         </div>
     )
 }
