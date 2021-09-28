@@ -1,5 +1,5 @@
-import { Layout, Menu, Avatar, Space, Divider, Col, Row, Drawer, Form, Button, Input, Select, DatePicker } from 'antd';
-import React from 'react';
+import { Layout, Menu, Avatar, Space, Divider, Col, Row, Drawer, Form, Button, Input, Select, DatePicker, Dropdown } from 'antd';
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { withRouter } from 'react-router-dom';
 import { UserOutlined } from '@ant-design/icons';
 import './index.css'
@@ -16,6 +16,20 @@ import MenuItem from 'antd/lib/menu/MenuItem';
 const routesAdmin = adminRoutes.filter(routes => routes.isShow);
 const routesDashboard = mainRoutes.filter(routes => routes.isShow);
 
+// const [loginVisible, setLoginVisible] = useState(true);
+// const [logoutVisible, setLogoutVisible] = useState(true);
+
+// useLayoutEffect(() => {
+//   if (!isLogined()) {
+//       setLogoutVisible('none')
+//   } else {
+//       setLoginVisible('none')
+//   }
+//   // checkUserRole();
+// }, [])
+
+
+
 const { Header, Content } = Layout;
 
 // const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
@@ -23,9 +37,9 @@ const { Header, Content } = Layout;
 const width_win = document.body.clientWidth
 const height_win = document.body.clientHeight
 
-const { Option } = Select;
+// const { Option } = Select;
 
-const state = { visible: false };
+// const state = { visible: false };
 
 const avatarIcon = (username) => {
   return username[0]
@@ -38,8 +52,28 @@ export function isLogined() {
   return false;
 }
 
+// export function clearToken() {
+//   localStorage.clear()
+// }
+
 function Frame(props) {
+  // const onClick = ({ key }) => {
+  //   if (key === 'logout') {
+  //     clearToken();
+  //     props.history.push('/login');
+  //   } else if (key === 'login') {
+  //     props.history.push('/login');
+  //   }
+  // };
+
+  // const menu = (
+  //   <Menu onClick={onClick}>
+  //     <Menu.Item key="login">Login</Menu.Item>
+  //     <Menu.Item key="logout" >Logout</Menu.Item>
+  //   </Menu>
+  // );
   // render() {
+
   return (
     <Layout className="layout">
       <Header style={{
@@ -89,24 +123,21 @@ function Frame(props) {
           </Col>
 
           <Col flex={1}>
-            <span className="avatar place">
-              <Avatar
-                size='large'
-                onClick={e => e.preventDefault()}
-                style={{ color: '#00000F' }}>
-                {isLogined() ? (avatarIcon('Admin')) : 'Guest'}
-              </Avatar>
+            {/* <Dropdown overlay={menu} trigger={['click']}> */}
+
+              <span className="avatar place">
+                <Avatar
+                  size='large'
+                  onClick={e => e.preventDefault()}
+                  style={{ color: '#00000F' }}>
+                  {isLogined() ? (avatarIcon('Admin')) : 'Guest'}
+                </Avatar>
 
 
 
 
 
-
-
-
-
-
-              {/* 
+                {/* 
                 <Drawer
                   title="Create a new account"
                   width={720}
@@ -218,7 +249,9 @@ function Frame(props) {
                     </Row>
                   </Form>
                 </Drawer> */}
-            </span>
+              </span>
+            {/* </Dropdown> */}
+
           </Col>
         </Row>
       </Header>

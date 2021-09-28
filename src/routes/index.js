@@ -8,8 +8,13 @@ export const mainRoutes = [
         isShow: true,
         component: Dashboard,
         exact: true,
-        title: 'dashboard'
-    }
+        title: 'Dashboard'
+    },
+    // {
+    //     path:'/login',
+    //     isShow: true,
+    //     component: isLogined
+    // }
 ]
 
 export const adminRoutes = [
@@ -18,6 +23,6 @@ export const adminRoutes = [
         isShow: true,
         component: Admin,
         exact: true,
-        title: 'admin'
+        title: 'Admin Page'
     }
 ]

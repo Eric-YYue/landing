@@ -107,12 +107,7 @@ function index() {
             </Carousel>
 
             <br />
-            <Divider orientation="left">
-                {/* <p style={{ fontFamily:"Trebuchet MS"}}> */}
-                <h1 style={{ fontFamily: "Lucida Sans Unicode" }} />
-                {/* </p> */}
-            </Divider>
-
+            <Divider />
             <br />
 
             <Row justify="space-around">

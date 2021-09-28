@@ -9,17 +9,18 @@ import 'antd/dist/antd.css'
 import { mainRoutes } from './routes';
 
 ReactDOM.render(
-  // <React.StrictMode>
-    <Router>
-      <Switch>
-        <Route path="/dashboard" render={routeProps => <App {...routeProps} />} />
-        <Route path="/admin" render={routeProps => <App {...routeProps} />} />
-        <Redirect to='/dashboard' from='/' />
-      </Switch>
-    </Router>,
-  // </React.StrictMode>,
-  document.getElementById('root')
-);
+  <Router>
+    <Switch>
+      <Route path="/dashboard" render={routeProps => <App {...routeProps} />} />
+      <Route path="/admin" render={routeProps => <App {...routeProps} />} />
+      {mainRoutes.map(route => {
+        return <Route key={route.path} {...route} />
+      })}
+      <Redirect to='/dashboard' from='/' />
+    </Switch>
+  </Router>
+  ,document.getElementById('root')
+)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
