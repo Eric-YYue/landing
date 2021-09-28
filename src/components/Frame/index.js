@@ -52,92 +52,92 @@ export function isLogined() {
   return false;
 }
 
-// export function clearToken() {
-//   localStorage.clear()
-// }
+export function clearToken() {
+  localStorage.clear()
+}
 
 function Frame(props) {
-  // const onClick = ({ key }) => {
-  //   if (key === 'logout') {
-  //     clearToken();
-  //     props.history.push('/login');
-  //   } else if (key === 'login') {
-  //     props.history.push('/login');
-  //   }
-  // };
+  const onClick = ({ key }) => {
+    if (key === 'logout') {
+      clearToken();
+      props.history.push('/login');
+    } else if (key === 'login') {
+      props.history.push('/login');
+    }
+  };
 
-  // const menu = (
-  //   <Menu onClick={onClick}>
-  //     <Menu.Item key="login">Login</Menu.Item>
-  //     <Menu.Item key="logout" >Logout</Menu.Item>
-  //   </Menu>
-  // );
+  const menu = (
+    <Menu onClick={onClick}>
+      <Menu.Item key="login">Login</Menu.Item>
+      <Menu.Item key="logout" >Logout</Menu.Item>
+    </Menu>
+  );
   // render() {
 
-  return (
-    <Layout className="layout">
-      <Header style={{
-        background: "dark",
-        paddingLeft: 0,
-        paddingTop: 0,
+    return (
+      <Layout className="layout">
+        <Header style={{
+          background: "dark",
+          paddingLeft: 0,
+          paddingTop: 0,
 
 
-        width: '100%',
-        // position: 'fixed',
-        // top: 0,
-      }}>
-        <Row>
-          <Col flex={4}>
-            <img
-              src={'../page_logo.jpg'}
-              // height={height_win/15}
-              // width={document.body.clientWidth / 14}
-              align="start"
-            />
+          width: '100%',
+          // position: 'fixed',
+          // top: 0,
+        }}>
+          <Row>
+            <Col flex={4}>
+              <img
+                src={'../page_logo.jpg'}
+                // height={height_win/15}
+                // width={document.body.clientWidth / 14}
+                align="start"
+              />
 
-          </Col>
-          <Col flex={50}>
-            <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']} style={{ padding: '0 50px' }}>
-              {/* {new Array(15).fill(null).map((_, index) => {
+            </Col>
+            <Col flex={50}>
+              <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']} style={{ padding: '0 50px' }}>
+                {/* {new Array(15).fill(null).map((_, index) => {
               const key = index + 1;
               return <Menu.Item key={key}>{`nav ${key}`}</Menu.Item>;
             })} */}
-              {routesDashboard.map(routesDashboard => {
-                return (
-                  <MenuItem key={routesDashboard.path} onClick={p => props.history.push(p.key)}>
-                    {routesDashboard.title}
-                  </MenuItem>
-                )
-              })}
+                {routesDashboard.map(routesDashboard => {
+                  return (
+                    <MenuItem key={routesDashboard.path} onClick={p => props.history.push(p.key)}>
+                      {routesDashboard.title}
+                    </MenuItem>
+                  )
+                })}
 
-              {routesAdmin.map(routesAdmin => {
-                return (
-                  <MenuItem key={routesAdmin.path} onClick={p => props.history.push(p.key)}>
-                    {routesAdmin.title}
-                  </MenuItem>
-                )
-              })}
-
-
-            </Menu>
-          </Col>
-
-          <Col flex={1}>
-            {/* <Dropdown overlay={menu} trigger={['click']}> */}
-
-              <span className="avatar place">
-                <Avatar
-                  size='large'
-                  onClick={e => e.preventDefault()}
-                  style={{ color: '#00000F' }}>
-                  {isLogined() ? (avatarIcon('Admin')) : 'Guest'}
-                </Avatar>
+                {routesAdmin.map(routesAdmin => {
+                  return (
+                    <MenuItem key={routesAdmin.path} onClick={p => props.history.push(p.key)}>
+                      {routesAdmin.title}
+                    </MenuItem>
+                  )
+                })}
 
 
+              </Menu>
+            </Col>
+
+            <Col flex={1}>
+              <Dropdown overlay={menu} trigger={['click']}>
+
+                <span className="avatar place">
+                  <Avatar
+                    size='large'
+                    onClick={e => e.preventDefault()}
+                    style={{ color: '#00000F' }}>
+                    {isLogined() ? (avatarIcon('Admin')) : 'Guest'}
+                  </Avatar>
 
 
 
-                {/* 
+
+
+                  {/* 
                 <Drawer
                   title="Create a new account"
                   width={720}
@@ -249,21 +249,21 @@ function Frame(props) {
                     </Row>
                   </Form>
                 </Drawer> */}
-              </span>
-            {/* </Dropdown> */}
+                </span>
+              </Dropdown>
 
-          </Col>
-        </Row>
-      </Header>
+            </Col>
+          </Row>
+        </Header>
 
-      <Content style={{ padding: '0 50px' }}>
-        <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-          {props.children}
-        </div>
-      </Content>
-    </Layout>
-  )
-}
-// }
+        <Content style={{ padding: '0 50px' }}>
+          <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+            {props.children}
+          </div>
+        </Content>
+      </Layout>
+    )
+  }
+  // }
 
-export default withRouter(Frame)
+  export default withRouter(Frame)
