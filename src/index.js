@@ -6,14 +6,15 @@ import reportWebVitals from './reportWebVitals';
 
 import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import 'antd/dist/antd.css'
-import { mainRoutes } from './routes';
+import { accountRoutes } from './routes';
 
 ReactDOM.render(
   <Router>
     <Switch>
       <Route path="/dashboard" render={routeProps => <App {...routeProps} />} />
       <Route path="/admin" render={routeProps => <App {...routeProps} />} />
-      {mainRoutes.map(route => {
+      {/* <Route path="/login" render={routeProps => <App {...routeProps} />} /> */}
+      {accountRoutes.map(route => {
         return <Route key={route.path} {...route} />
       })}
       <Redirect to='/dashboard' from='/' />

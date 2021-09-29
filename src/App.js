@@ -1,7 +1,7 @@
 import './App.css';
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom'
-import { mainRoutes, adminRoutes } from "./routes"
+import { accountRoutes, mainRoutes, adminRoutes } from "./routes"
 import Frame from './components/Frame/index'
 
 
@@ -9,6 +9,17 @@ function App() {
   return (
     <Frame>
       <Switch>
+        {accountRoutes.map(route => {
+          return (
+            <Route
+              key={route.path}
+              path={route.path}
+              exact={route.exact}
+              render={routeProps => {
+                return <route.component {...routeProps} />;
+              }} />
+          );
+        })}
         {mainRoutes.map(route => {
           return (
             <Route

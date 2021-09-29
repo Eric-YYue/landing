@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { Table, Tooltip, Modal, Button, Divider, Input, InputNumber, Popconfirm, Form, Typography } from 'antd';
 import { EditOutlined, CloseOutlined, ExclamationCircleOutlined, UpOutlined, DownOutlined } from '@ant-design/icons'
+import { accountRoutes } from '../../routes';
 
 // Test data
 const originData = [
@@ -49,12 +50,12 @@ function Admin() {
                         style={{
                             margin: 0,
                         }}
-                        rules={[
-                            {
-                                required: true,
-                                message: `Please Input ${title}!`,
-                            },
-                        ]}
+                        // rules={[
+                        //     {
+                        //         required: true,
+                        //         message: `Please Input ${title}!`,
+                        //     },
+                        // ]}
                     >
                         {inputNode}
                     </Form.Item>
@@ -112,8 +113,9 @@ function Admin() {
             dataIndex: 'name',
             width: '12.5%',
             editable: true,
+            initialValue:'Tom',
             render: name => (
-                <Tooltip placement="topLeft" title={name}>
+                <Tooltip placement="topLeft" title={name} key="test">
                     {name}
                 </Tooltip>
             ),
@@ -123,8 +125,9 @@ function Admin() {
             dataIndex: 'link',
             width: '15%',
             editable: true,
+            initialValue:'Tom',
             render: link => (
-                <Tooltip placement="topLeft" title={link}>
+                <Tooltip placement="topLeft" title={link} key="test">
                     {link}
                 </Tooltip>
             ),
@@ -133,11 +136,12 @@ function Admin() {
             title: 'Description',
             dataIndex: 'description',
             editable: true,
+            initialValue:'Tom',
             ellipsis: {
                 showTitle: false,
             },
             render: description => (
-                <Tooltip placement="topLeft" title={description}>
+                <Tooltip placement="topLeft" title={description} key="test">
                     {description}
                 </Tooltip>
             ),
@@ -147,8 +151,9 @@ function Admin() {
             dataIndex: 'image',
             width: '15%',
             editable: true,
+            initialValue:'Tom',
             render: image => (
-                <Tooltip placement="topLeft" title={image}>
+                <Tooltip placement="topLeft" title={image} key="test">
                     {image}
                 </Tooltip>
             ),

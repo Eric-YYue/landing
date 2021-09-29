@@ -1,9 +1,8 @@
 import { Layout, Menu, Avatar, Space, Divider, Col, Row, Drawer, Form, Button, Input, Select, DatePicker, Dropdown } from 'antd';
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { withRouter } from 'react-router-dom';
-import { UserOutlined } from '@ant-design/icons';
 import './index.css'
-import { mainRoutes, adminRoutes } from '../../routes';
+import { accountRoutes, mainRoutes, adminRoutes } from '../../routes';
 import MenuItem from 'antd/lib/menu/MenuItem';
 
 
