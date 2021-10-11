@@ -1,33 +1,9 @@
 import React, { useState } from 'react';
 
-import { Table, Tooltip, Modal, Button, Divider, Input, InputNumber, Popconfirm, Form, Typography } from 'antd';
-import { EditOutlined, CloseOutlined, ExclamationCircleOutlined, UpOutlined, DownOutlined } from '@ant-design/icons'
+import { Table, Tooltip, Modal, Button, Divider, Input, InputNumber, Popconfirm, Form, Typography, Row, Col } from 'antd';
+import { EditOutlined, CloseOutlined, ExclamationCircleOutlined, UpOutlined, DownOutlined, PlusOutlined } from '@ant-design/icons'
 import { accountRoutes } from '../../routes';
-
-// Test data
-const originData = [
-    {
-        key: '1',
-        name: 'Youtube',
-        link: 'www.youtube.com',
-        description: 'Video websitet test message test messagetest message test message test message test message test message test message test message test message test message',
-        index: 0,
-    },
-    {
-        key: '2',
-        name: 'BaiDu',
-        link: 'www.baidu.com',
-        description: 'Search engine test message test message test message test message test message test message test message test message test message',
-        index: 1,
-    },
-    {
-        key: '3',
-        name: 'ZhiHu',
-        link: 'www.zhihu.com',
-        description: 'Piazza engine test message test message test message test message test message test message test message test message test message test message test message test message test message test message',
-        index: 2,
-    },
-];
+import webData from "../../data/websiteInfo.json";
 
 
 function Admin() {
@@ -50,12 +26,12 @@ function Admin() {
                         style={{
                             margin: 0,
                         }}
-                        // rules={[
-                        //     {
-                        //         required: true,
-                        //         message: `Please Input ${title}!`,
-                        //     },
-                        // ]}
+                        rules={[
+                            {
+                                required: true,
+                                message: `Please Input ${title}!`,
+                            },
+                        ]}
                     >
                         {inputNode}
                     </Form.Item>
@@ -67,19 +43,22 @@ function Admin() {
     };
 
     const [form] = Form.useForm();
-    const [data, setData] = useState(originData);
+    const [data, setData] = useState(webData);
     const [editingKey, setEditingKey] = useState('');
 
     const isEditing = (record) => record.key === editingKey;
 
     const edit = (record) => {
         form.setFieldsValue({
+            web_id: '',
             name: '',
-            age: '',
-            address: '',
+            weblink: '',
+            description: '',
+            imglink: '',
             ...record,
         });
-        setEditingKey(record.key);
+        setEditingKey(record.web_id);
+        console.log(record.key);
     };
 
     const cancel = () => {
@@ -91,6 +70,7 @@ function Admin() {
             const row = await form.validateFields();
             const newData = [...data];
             const index = newData.findIndex((item) => key === item.key);
+            console.log(key)
 
             if (index > -1) {
                 const item = newData[index];
@@ -109,53 +89,69 @@ function Admin() {
 
     const columns = [
         {
+            title: 'Index',
+            dataIndex: 'web_id',
+            key:'web_id',
+            width: '5%',
+            render: (txt, record, index) => index + 1,
+        },
+        {
             title: 'Website Name',
             dataIndex: 'name',
             width: '12.5%',
             editable: true,
-            initialValue:'Tom',
+            ellipsis: {
+                showTitle: false,
+            },
             render: name => (
-                <Tooltip placement="topLeft" title={name} key="test">
+                <Tooltip placement="topLeft" title={name}>
                     {name}
                 </Tooltip>
             ),
         },
         {
             title: 'Website Link',
-            dataIndex: 'link',
+            dataIndex: 'weblink',
             width: '15%',
             editable: true,
-            initialValue:'Tom',
-            render: link => (
-                <Tooltip placement="topLeft" title={link} key="test">
-                    {link}
-                </Tooltip>
+            ellipsis: {
+                showTitle: false,
+            },
+            render: weblink => (
+                <a href={weblink} target="_blank" rel="noopener noreferrer">
+                    <Tooltip placement="topLeft" title={weblink}>
+                        {weblink}
+                    </Tooltip>
+                </a>
             ),
         },
         {
             title: 'Description',
             dataIndex: 'description',
             editable: true,
-            initialValue:'Tom',
             ellipsis: {
                 showTitle: false,
             },
             render: description => (
-                <Tooltip placement="topLeft" title={description} key="test">
+                <Tooltip placement="topLeft" title={description}>
                     {description}
                 </Tooltip>
             ),
         },
         {
             title: 'Image Link',
-            dataIndex: 'image',
+            dataIndex: 'imglink',
             width: '15%',
             editable: true,
-            initialValue:'Tom',
-            render: image => (
-                <Tooltip placement="topLeft" title={image} key="test">
-                    {image}
-                </Tooltip>
+            ellipsis: {
+                showTitle: false,
+            },
+            render: imglink => (
+                <a href={imglink} target="_blank" rel="noopener noreferrer">
+                    <Tooltip placement="topLeft" title={imglink}>
+                        {imglink}
+                    </Tooltip>
+                </a>
             ),
         },
         {
@@ -168,7 +164,7 @@ function Admin() {
                     <span>
                         <a
                             href="javascript:;"
-                            onClick={() => save(record.key)}
+                            onClick={() => save(record.index)}
                             style={{
                                 marginRight: 8,
                             }}
@@ -191,17 +187,15 @@ function Admin() {
             },
         },
         {
-            title: 'Sort',
-            dataIndex: 'sort',
+            title: 'Order',
+            dataIndex: 'order',
             width: 200,
-            render: sort => (
+            render: order => (
                 <span>
                     <Button shape="circle" icon={<UpOutlined />} />
                     <Divider type="vertical" />
                     <Button shape="circle" icon={<DownOutlined />} />
                 </span>
-
-
             ),
         },
     ];
@@ -214,7 +208,8 @@ function Admin() {
             ...col,
             onCell: (record) => ({
                 record,
-                inputType: col.dataIndex,
+                inputType: col.dataIndex === 'age' ? 'number' : 'text',
+                key:'web_id',
                 dataIndex: col.dataIndex,
                 title: col.title,
                 editing: isEditing(record),
@@ -222,22 +217,36 @@ function Admin() {
         };
     });
     return (
-        <Form form={form} component={false}>
-            <Table
-                components={{
-                    body: {
-                        cell: EditableCell,
-                    },
-                }}
-                bordered
-                dataSource={data}
-                columns={mergedColumns}
-                rowClassName="editable-row"
-                pagination={{
-                    onChange: cancel,
-                }}
-            />
-        </Form>
+        <a>
+            <Row>
+                <Col span={2} offset={22}>
+                    <Button type="primary" shape="round" icon={<PlusOutlined />}>
+                        Add
+                    </Button>
+                </Col>
+            </Row>
+
+            <br></br>
+
+            <Form form={form} component={false}>
+                <Table
+                    components={{
+                        body: {
+                            cell: EditableCell,
+                        },
+                    }}
+                    bordered
+                    dataSource={data}
+                    columns={mergedColumns}
+                    rowKey= "web_id"
+                    rowClassName="editable-row"
+                    pagination={{
+                        onChange: cancel,
+                    }}
+                />
+            </Form>
+        </a>
+
     );
 }
 

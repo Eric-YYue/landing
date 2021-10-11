@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react';
 
 import { Card, Avatar, Col, Row, Carousel, Divider, Space } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined, LinkOutlined } from '@ant-design/icons';
 import './index.css'
 
-import CardTmp from '../../components/CardTmp'
+// import CardTmp from '../../components/CardTmp'
+import webData from "../../data/websiteInfo.json";
+
 import SizeContext from 'antd/lib/config-provider/SizeContext';
 import { List } from 'rc-field-form';
+// import { unstable_enableLogBox } from 'react-native';
 
-// const { Meta } = Card;
+const { Meta } = Card;
 
 // fetchSelData = () => {
 //     fetch('../data/selectData.json')
@@ -16,14 +19,6 @@ import { List } from 'rc-field-form';
 //         .then((data) => {alert(JSON.stringify(data));this.setState({selV:data.obj});})
 //         .catch((e) => {console.log(e.message); });
 // }
-
-const mapper = (item) => {
-    return (
-        <Col span={4} style={{ paddingLeft: 20, padding: 20 }}>
-            <CardTmp />
-        </Col>
-    )
-}
 
 
 const contentStyle = {
@@ -47,8 +42,16 @@ const statusObj = {
 const style = { padding: '8px 0' };
 
 function index() {
-    const carousel_height = document.body.clientHeight / 2.5;
-    const carousel_tmp_width = 2 * document.body.clientWidth / 3
+    const [data, setData] = useState(webData);
+
+
+    const carousel_height = document.body.clientHeight / 3;
+    const carousel_tmp_width = 2 * document.body.clientWidth / 3;
+
+    const card_height = ((document.body.clientWidth / 5) - 25) * 0.9;
+    const card_width = (document.body.clientWidth / 5) - 25;
+
+
     return (
         <div>
             <Carousel autoplay dots="false" style={{ background: "#6A6A6A", height: carousel_height }}>
@@ -128,14 +131,79 @@ function index() {
                         <li key={idx} className={classes.li}>{obj} : {statusObj[obj]}</li>
                     ))} */}
 
-                    <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-                        {new Array(15).fill(null).map((_, index) => (
+                    <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} justify="start" wrap={true}>
+                        {
+                            webData.map((item, index) => {
+                                return (
+                                    <Col className="gutter-row" span={6}>
+                                        <div style={style} align="middle" >
+                                            <a href={item.weblink} target="_blank" rel="noopener noreferrer">
+                                                <Card
+                                                    style={{
+                                                        width: card_width,
+                                                        height: card_height,
+                                                    }}
+                                                    cover={
+                                                        <img
+                                                            alt="website_image"
+                                                            src={item.imglink}
+                                                            width={card_width}
+                                                            height={card_height * 0.7}
+                                                        />
+                                                    }
+                                                >
+                                                    <Meta align="start"
+                                                        title={item.name}
+                                                        description={item.description}
+                                                    />
+                                                </Card>
+                                            </a>
+                                        </div>
+                                    </Col>
+                                )
+                            })
+                        }
+
+
+
+
+
+
+
+
+
+
+
+                        {/* {new Array(15).fill(null).map((_, index) => (
                             <Col className="gutter-row" span={6}>
                                 <div style={style} align="middle" >
-                                    <CardTmp />
+                                    <a href="http://10.124.81.138:3000/index_main" target="_blank" rel="noopener noreferrer">
+                                        <Card
+                                            style={{
+                                                width: card_width,
+                                                height: card_height,
+                                            }}
+                                            cover={
+                                                <img
+                                                    alt="website_image"
+                                                    src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                                                    height="5%"
+                                                />
+                                            }
+                                        >
+                                            <Meta align="start"
+                                                title="{webData.name}"
+                                                description="Detailed Information"
+                                            />
+                                        </Card>
+                                    </a>
                                 </div>
                             </Col>
-                        ))}
+                        ))} */}
+
+
+
+
                     </Row>
 
 

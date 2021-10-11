@@ -68,7 +68,7 @@ function Frame(props) {
   const menu = (
     <Menu onClick={onClick}>
       <Menu.Item key="login">Login</Menu.Item>
-      <Menu.Item key="logout" >Logout</Menu.Item>
+      {/* <Menu.Item key="logout" >Logout</Menu.Item> */}
     </Menu>
   );
   // render() {

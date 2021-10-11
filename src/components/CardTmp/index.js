@@ -12,7 +12,7 @@ function CardTmp(props) {
                 style={{ width: (document.body.clientWidth / 5) - 25 }}
                 cover={
                     <img
-                        alt="example"
+                        alt="website_image"
                         src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
                     />
                 }
@@ -23,6 +23,24 @@ function CardTmp(props) {
                 />
             </Card>
         </a>
+
+
+        // <a href={this.props.weblink} target="_blank" rel="noopener noreferrer">
+        // <Card
+        //     style={{ width: (document.body.clientWidth / 5) - 25 }}
+        //     cover={
+        //         <img
+        //             alt="website_image"
+        //             src={this.props.imglink}
+        //         />
+        //     }
+        // >
+        //     <Meta align="start"
+        //         title={this.props.name}
+        //         description={this.props.description}
+        //     />
+        // </Card>
+        // </a>
     )
 }
 
