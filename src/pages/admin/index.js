@@ -1,12 +1,35 @@
-import React, { useState } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 
 import { Table, Tooltip, Modal, Button, Divider, Input, InputNumber, Popconfirm, Form, Typography, Row, Col } from 'antd';
 import { EditOutlined, CloseOutlined, ExclamationCircleOutlined, UpOutlined, DownOutlined, PlusOutlined } from '@ant-design/icons'
 import { accountRoutes } from '../../routes';
+
+
 import webData from "../../data/websiteInfo.json";
+import "./admin.css"
 
 
 function Admin() {
+    // var myObj = JSON.parse(webData)
+
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleOk = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
+
+
+
+
     const EditableCell = ({
         editing,
         dataIndex,
@@ -58,19 +81,24 @@ function Admin() {
             ...record,
         });
         setEditingKey(record.web_id);
-        console.log(record.key);
+        // console.log(data);
     };
 
     const cancel = () => {
         setEditingKey('');
     };
 
+    const fs = require("fs");
+
     const save = async (key) => {
         try {
             const row = await form.validateFields();
             const newData = [...data];
             const index = newData.findIndex((item) => key === item.key);
-            console.log(key)
+            fs.writeFileSync("../../data/websiteInfo.json", newData);
+
+            // data == newData
+            // console.log(newData)
 
             if (index > -1) {
                 const item = newData[index];
@@ -91,13 +119,16 @@ function Admin() {
         {
             title: 'Index',
             dataIndex: 'web_id',
-            key:'web_id',
+            key: 'web_id',
+            classname: 'tableFormat',
             width: '5%',
             render: (txt, record, index) => index + 1,
         },
         {
             title: 'Website Name',
             dataIndex: 'name',
+            // classname: 'tableFormat',
+            margin: '0px auto',
             width: '12.5%',
             editable: true,
             ellipsis: {
@@ -158,6 +189,7 @@ function Admin() {
             title: 'Detail Operation',
             dataIndex: 'info',
             width: 250,
+            align: 'center',
             render: (_, record) => {
                 const editable = isEditing(record);
                 return editable ? (
@@ -190,6 +222,7 @@ function Admin() {
             title: 'Order',
             dataIndex: 'order',
             width: 200,
+            align: 'center',
             render: order => (
                 <span>
                     <Button shape="circle" icon={<UpOutlined />} />
@@ -199,6 +232,19 @@ function Admin() {
             ),
         },
     ];
+
+
+    const formItemLayout = {
+        labelCol: {
+            xs: { span: 16 },
+            sm: { span: 6 },
+        },
+        wrapperCol: {
+            xs: { span: 24 },
+            sm: { span: 18 },
+        },
+    };
+
     const mergedColumns = columns.map((col) => {
         if (!col.editable) {
             return col;
@@ -208,8 +254,8 @@ function Admin() {
             ...col,
             onCell: (record) => ({
                 record,
-                inputType: col.dataIndex === 'age' ? 'number' : 'text',
-                key:'web_id',
+                // inputType: col.dataIndex === 'age' ? 'number' : 'text',
+                key: 'web_id',
                 dataIndex: col.dataIndex,
                 title: col.title,
                 editing: isEditing(record),
@@ -220,9 +266,48 @@ function Admin() {
         <a>
             <Row>
                 <Col span={2} offset={22}>
-                    <Button type="primary" shape="round" icon={<PlusOutlined />}>
+                    <Button type="primary" shape="round" icon={<PlusOutlined />} onClick={showModal}>
                         Add
                     </Button>
+                    <Modal title="New Website" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                        <Form
+                            {...formItemLayout}
+                        >
+                            <Form.Item
+                                name="web_name"
+                                label="Website"
+                                rules={[{ required: true, message: 'Please enter the website name' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+
+                            <Form.Item
+                                name="web_link"
+                                label="Link"
+                                rules={[{ required: true, message: 'Please enter the website address' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+
+                            <Form.Item
+                                name="description"
+                                label="Description"
+                                rules={[{ required: true, message: 'What do you want to say about this website' }]}
+                                // preserve= "What do you want to say about this website"
+                                style={{ width: '100%', borderRadius: "5px" }}
+                            >
+                                <Input.TextArea rows={3} />
+                            </Form.Item>
+
+                            <Form.Item
+                                name="img_link"
+                                label="Image Source"
+                                rules={[{ required: true, message: 'Please enter the image website address' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Form>
+                    </Modal>
                 </Col>
             </Row>
 
@@ -238,10 +323,11 @@ function Admin() {
                     bordered
                     dataSource={data}
                     columns={mergedColumns}
-                    rowKey= "web_id"
+                    rowKey="web_id"
                     rowClassName="editable-row"
                     pagination={{
                         onChange: cancel,
+                        defaultPageSize: 10,
                     }}
                 />
             </Form>
@@ -251,149 +337,3 @@ function Admin() {
 }
 
 export default Admin
-
-
-
-
-// import React, { useState } from 'react';
-
-// import { Table, Tooltip, Modal, Button, Divider } from 'antd';
-// import { EditOutlined, CloseOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
-
-// // Test data
-// const data = [
-//     {
-//         key: '1',
-//         name: 'Youtube',
-//         link: 'www.youtube.com',
-//         description: 'Video websitet test message test messagetest message test message test message test message test message test message test message test message test message',
-//         index: 0,
-//     },
-//     {
-//         key: '2',
-//         name: 'BaiDu',
-//         link: 'www.baidu.com',
-//         description: 'Search engine test message test message test message test message test message test message test message test message test message',
-//         index: 1,
-//     },
-//     {
-//         key: '3',
-//         name: 'ZhiHu',
-//         link: 'www.zhihu.com',
-//         description: 'Piazza engine test message test message test message test message test message test message test message test message test message test message test message test message test message test message',
-//         index: 2,
-//     },
-// ];
-
-
-// function Admin() {
-//     // Website editing modal
-//     const [isModalVisible, setIsModalVisible] = useState(false);
-
-//     const showModal = () => {
-//         setIsModalVisible(true);
-//     };
-
-//     const handleOk = () => {
-//         setIsModalVisible(false);
-//     };
-
-//     const handleCancel = () => {
-//         setIsModalVisible(false);
-//     };
-
-//     // Website delete modal
-//     function confirm() {
-//         Modal.confirm({
-//             title: 'Confirm',
-//             icon: <ExclamationCircleOutlined />,
-//             content: 'Are you sure to delete this website item?',
-//             okText: 'Confirm',
-//             cancelText: 'Cancel',
-//         });
-//     }
-
-
-//     // Website detailed information table
-//     const columns = [
-//         {
-//             title: 'Website Name',
-//             dataIndex: 'name',
-//             width: '10%',
-//             render: name => (
-//                 <Tooltip placement="topLeft" title={name}>
-//                     {name}
-//                 </Tooltip>
-//             ),
-//         },
-//         {
-//             title: 'Website Link',
-//             dataIndex: 'link',
-//             width: '20%',
-//             render: link => (
-//                 <Tooltip placement="topLeft" title={link}>
-//                     {link}
-//                 </Tooltip>
-//             ),
-//         },
-//         {
-//             title: 'Description',
-//             dataIndex: 'description',
-//             ellipsis: {
-//                 showTitle: false,
-//             },
-//             render: description => (
-//                 <Tooltip placement="topLeft" title={description}>
-//                     {description}
-//                 </Tooltip>
-//             ),
-//         },
-//         {
-//             title: 'Image Link',
-//             dataIndex: 'image',
-//             width: '20%',
-//             render: image => (
-//                 <Tooltip placement="topLeft" title={image}>
-//                     {image}
-//                 </Tooltip>
-//             ),
-//         },
-//         {
-//             title: 'Operation',
-//             dataIndex: 'operation',
-//             width: 150,
-//             render: (txt, record, index) => {
-//                 return (
-//                     <div>
-//                         <Button type="primary" onClick={showModal}>
-//                             <EditOutlined />
-//                         </Button>
-//                         <Modal title="Website Edit Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-//                             <p>Some contents...</p>
-//                             <p>Some contents...</p>
-//                             <p>Some contents...</p>
-//                         </Modal>
-
-//                         <Divider type="vertical" />
-
-//                         <Button type="primary" onClick={confirm}>
-//                             <CloseOutlined />
-//                         </Button>
-//                     </div>
-
-//                 )
-//             }
-//         },
-//     ];
-
-
-//     return (
-//         <Table
-//             columns={columns}
-//             dataSource={data}
-//         />
-//     );
-//     // }
-// }
-
-// export default Admin
